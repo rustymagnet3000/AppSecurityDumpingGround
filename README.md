@@ -472,12 +472,17 @@ curl ${H1_HOSTNAME} -H 'User-Agent: '"${H1_FUZZ_UG}"'' \
 # get all DockerHub images from a company
 curl -s "https://hub.docker.com/v2/repositories/someCompany/?page_size=100" | jq -r '.results|.[]|.name'
 
-
 # no Cache header
 curl -H 'Cache-Control: no-cache, no-store' http://www.example.com
 
-#Silent
+# silent
 curl -s 'http://example.com' > /dev/null
+
+# fail -> useful to test for a fail
+curl --silent --fail "http://app:8000/health"
+
+# curl for a http response code like a 404
+curl -s -o /dev/null -w "%{http_code}" "http://app:8000/nonexistent-page"
 
 # Test SQL injection
 curl -I http://<http_hostname>:<external_port>/\?id\=%27%20OR%20%271
