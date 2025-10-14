@@ -207,7 +207,17 @@ Or:
 
 `RUST_LOG=rusoto,hyper=debug`
 
-## Shell tricks
+## Shell skills
+
+### Trick in Container with no Vi / nano
+
+```shell
+# lists all files named filename.txt in the current folder and every subfolder.
+find . -type f -name "filename.txt"
+
+# Delete them all once confirmed
+find . -type f -name "filename.txt" -delete
+```
 
 ### Trick in Container with no Vi / nano
 
