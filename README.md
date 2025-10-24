@@ -11,11 +11,6 @@ Over time you collect lots of small, useful tips.  Below is my attempt to write 
     - [grep](#grep)
   - [cURL](#curl)
   - [Reconnaissance](#reconnaissance)
-    - [Exposed passwords](#exposed-passwords)
-    - [Domain / Port issues](#domain--port-issues)
-    - [Domain names](#domain-names)
-    - [fast scanning on large number of hosts](#fast-scanning-on-large-number-of-hosts)
-    - [Print Server's Certificate Chain](#print-servers-certificate-chain)
   - [Proxy traffic](#proxy-traffic)
     - [macOS env variable](#macos-env-variable)
     - [Jetbrains IDE](#jetbrains-ide)
@@ -91,6 +86,9 @@ find . -name 'foo_file*' | xargs wc -l
 # trick in Container with no Vi / nano
 # get from Paste into script
 cat > myscript.sh
+
+# Print Server's Certificate Chain
+echo | openssl s_client -showcerts -connect foobar.com :443 2>/dev/null | openssl x509 -inform pem -noout -text
 ```
 
 ### Operators
@@ -280,27 +278,19 @@ curl -I ${H1_HOSTNAME} \
 
 ## Reconnaissance
 
-### Exposed passwords
+```shell
+# Exposed passwords
+https://intelx.io/
 
-<https://intelx.io/>
+# Domain / Port issues
+https://spyse.com/
 
-### Domain / Port issues
+# phishing - -> check if a company  bought some TLDs or domains you didn't expect.  
+https://rapidapi.com/domainr/
 
-<https://spyse.com/>
-
-### Domain names
-
-Interesting way to see whether a company has bought some TLDs or domains you didn't expect.  <https://rapidapi.com/domainr/>.
-
-[Documentation](https://domainr.com/docs/api)
-
-### fast scanning on large number of hosts
-
-<https://github.com/projectdiscovery/nuclei>
-
-### Print Server's Certificate Chain
-
-`echo | openssl s_client -showcerts -connect foobar.com :443 2>/dev/null | openssl x509 -inform pem -noout -text`
+# fast scan on large number of hosts
+https://github.com/projectdiscovery/nuclei
+```
 
 ## Proxy traffic
 
