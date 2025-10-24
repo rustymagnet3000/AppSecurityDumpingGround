@@ -5,77 +5,278 @@ Over time you collect lots of small, useful tips.  Below is my attempt to write 
 <!-- TOC -->
 
 - [AppSec Dumping Ground](#appsec-dumping-ground)
-    - [Reconnaissance](#reconnaissance)
-        - [Exposed passwords](#exposed-passwords)
-        - [Domain / Port issues](#domain--port-issues)
-        - [Domain names](#domain-names)
-        - [fast scanning on large number of hosts](#fast-scanning-on-large-number-of-hosts)
-        - [Print Server's Certificate Chain](#print-servers-certificate-chain)
-    - [Proxy traffic](#proxy-traffic)
-        - [macOS env variable](#macos-env-variable)
-        - [Jetbrains IDE](#jetbrains-ide)
-        - [macOS Desktop apps](#macos-desktop-apps)
-        - [Proxy OpenSSL](#proxy-openssl)
-        - [Invisble proxying](#invisble-proxying)
-        - [Add debug logging, as alternative to proxying](#add-debug-logging-as-alternative-to-proxying)
-    - [Shell tricks](#shell-tricks)
-        - [Trick in Container with no Vi / nano](#trick-in-container-with-no-vi--nano)
-        - [Operators](#operators)
-        - [diff between files](#diff-between-files)
-        - [grep](#grep)
-    - [Burp](#burp)
-        - [Search Burp files](#search-burp-files)
-        - [Replay requests](#replay-requests)
-            - [Same requests many times](#same-requests-many-times)
-        - [Replay requests turbo](#replay-requests-turbo)
-        - [Enumeration](#enumeration)
-            - [Find API](#find-api)
-            - [Response](#response)
-            - [Burp Intruder - Username Generator](#burp-intruder---username-generator)
-            - [Burp Intruder - Brute Forcer](#burp-intruder---brute-forcer)
-            - [Burp Intruder - Brute Forcer with Random Numbers](#burp-intruder---brute-forcer-with-random-numbers)
-        - [Inject XSS Payload](#inject-xss-payload)
-            - [Request](#request)
-            - [Burp Extender](#burp-extender)
-            - [Burp Intruder set up](#burp-intruder-set-up)
-    - [JMeter](#jmeter)
-        - [Set a replayed request](#set-a-replayed-request)
-        - [Summary Report](#summary-report)
-        - [Send Parallel requests](#send-parallel-requests)
-    - [cURL](#curl)
-    - [Apache Bench](#apache-bench)
-        - [load test a container](#load-test-a-container)
-            - [Verbose flag to verify HTTP response code](#verbose-flag-to-verify-http-response-code)
-    - [haproxy](#haproxy)
-        - [Install](#install)
-        - [Run](#run)
-        - [Validate config file](#validate-config-file)
-        - [Example Proxy Pass all data](#example-proxy-pass-all-data)
-        - [Example remove Cookies and add header](#example-remove-cookies-and-add-header)
-        - [Replace user-agent](#replace-user-agent)
-            - [More HAProxy commands](#more-haproxy-commands)
-            - [Local Echo Server](#local-echo-server)
-    - [DNS](#dns)
-    - [Homebrew](#homebrew)
-        - [Brew](#brew)
-    - [Vulnerabilities](#vulnerabilities)
-        - [Bug Bounty reports](#bug-bounty-reports)
-        - [Loose Cookie attributes](#loose-cookie-attributes)
-            - [Mitigation](#mitigation)
-        - [Subdomain Takeovers](#subdomain-takeovers)
-        - [XSS Payloads - Stored XSS](#xss-payloads---stored-xss)
-            - [Mitigation](#mitigation)
-            - [Simple XSS Payloads](#simple-xss-payloads)
-        - [Use encoded colon XSS Payloads](#use-encoded-colon-xss-payloads)
-        - [Phishing](#phishing)
-            - [Mitigation](#mitigation)
-        - [Billion Laughs Attack](#billion-laughs-attack)
-            - [Background](#background)
-            - [Simulating the attack](#simulating-the-attack)
-            - [Sample code](#sample-code)
-            - [Mitigations](#mitigations)
+  - [Shell skills](#shell-skills)
+    - [Operators](#operators)
+    - [diff between files](#diff-between-files)
+    - [grep](#grep)
+  - [cURL](#curl)
+  - [Reconnaissance](#reconnaissance)
+    - [Exposed passwords](#exposed-passwords)
+    - [Domain / Port issues](#domain--port-issues)
+    - [Domain names](#domain-names)
+    - [fast scanning on large number of hosts](#fast-scanning-on-large-number-of-hosts)
+    - [Print Server's Certificate Chain](#print-servers-certificate-chain)
+  - [Proxy traffic](#proxy-traffic)
+    - [macOS env variable](#macos-env-variable)
+    - [Jetbrains IDE](#jetbrains-ide)
+    - [macOS Desktop apps](#macos-desktop-apps)
+    - [Proxy OpenSSL](#proxy-openssl)
+    - [Invisble proxying](#invisble-proxying)
+    - [Add debug logging, as alternative to proxying](#add-debug-logging-as-alternative-to-proxying)
+  - [Burp](#burp)
+    - [Search Burp files](#search-burp-files)
+    - [Replay requests](#replay-requests)
+      - [Same requests many times](#same-requests-many-times)
+    - [Replay requests (turbo)](#replay-requests-turbo)
+    - [Enumeration](#enumeration)
+      - [Find API](#find-api)
+      - [Response](#response)
+      - [Burp Intruder - Username Generator](#burp-intruder---username-generator)
+      - [Burp Intruder - Brute Forcer](#burp-intruder---brute-forcer)
+      - [Burp Intruder - Brute Forcer with Random Numbers](#burp-intruder---brute-forcer-with-random-numbers)
+    - [Inject XSS Payload](#inject-xss-payload)
+      - [Request](#request)
+      - [Burp Extender](#burp-extender)
+      - [Burp Intruder set up](#burp-intruder-set-up)
+  - [JMeter](#jmeter)
+    - [Set a replayed request](#set-a-replayed-request)
+    - [Summary Report](#summary-report)
+    - [Send Parallel requests](#send-parallel-requests)
+  - [Apache Bench](#apache-bench)
+    - [load test a container](#load-test-a-container)
+      - [Verbose flag to verify HTTP response code](#verbose-flag-to-verify-http-response-code)
+  - [haproxy](#haproxy)
+    - [Install](#install)
+    - [Run](#run)
+    - [Validate config file](#validate-config-file)
+    - [Example Proxy Pass all data](#example-proxy-pass-all-data)
+    - [Example remove Cookies and add header](#example-remove-cookies-and-add-header)
+    - [Replace user-agent](#replace-user-agent)
+      - [More HAProxy commands](#more-haproxy-commands)
+      - [Local Echo Server](#local-echo-server)
+  - [DNS](#dns)
+  - [Homebrew](#homebrew)
+    - [Brew](#brew)
+  - [Vulnerabilities](#vulnerabilities)
+    - [Bug Bounty reports](#bug-bounty-reports)
+    - [Loose Cookie attributes](#loose-cookie-attributes)
+      - [Mitigation](#mitigation)
+    - [Subdomain Takeovers](#subdomain-takeovers)
+    - [XSS Payloads - Stored XSS](#xss-payloads---stored-xss)
+      - [Mitigation](#mitigation-1)
+      - [Simple XSS Payloads](#simple-xss-payloads)
+    - [Use encoded colon XSS Payloads](#use-encoded-colon-xss-payloads)
+    - [Phishing](#phishing)
+      - [Mitigation](#mitigation-2)
+    - [Billion Laughs Attack](#billion-laughs-attack)
+      - [Background](#background)
+      - [Simulating the attack](#simulating-the-attack)
+      - [Sample code](#sample-code)
+      - [Mitigations](#mitigations)
 
 <!-- /TOC -->
+
+## Shell skills
+
+```shell
+# lists all files named filename.txt in the current folder and every subfolder.
+find . -type f -name "filename.txt"
+
+# Delete them all once confirmed
+find . -type f -name "filename.txt" -delete
+
+# count lines in all files
+find . -name 'foo_file*' | xargs wc -l
+
+# trick in Container with no Vi / nano
+# get from Paste into script
+cat > myscript.sh
+```
+
+### Operators
+
+```shell
+# run A then B, regardless of A's success
+"A ; B"   
+# run B if A succeeded
+"A && B"  
+# run B if A failed
+"A || B"
+# run A in background
+"A &" 
+# test return code
+terraform fmt -check ; test $? -eq 0 
+
+# check for empty strings
+test -n "yest" ; echo $?
+0
+test -n "" ; echo $?    
+1
+test -n  ; echo $?  
+0
+test -n $CIRCLE_PULL_REQUEST ; echo $?
+0
+test -n "$CIRCLE_PULL_REQUEST" ; echo $?
+1
+```
+
+### diff between files
+
+```shell
+cat file1 && echo "\n" && cat file2
+a
+b
+c
+d
+e
+
+
+d
+e
+f
+g
+
+# get lines not that are not in each file
+▶ cat file1 file2 | sort | uniq -u   
+a
+b
+c
+f
+g
+
+#find lines only in file1
+comm -23 file1 file2 
+a
+b
+c
+
+#find lines only in file2
+comm -13 file1 file2 
+f
+g
+
+#find lines in both files
+comm -12 file1 file2 
+d
+e
+
+# cuts from a forward slash
+ - cat file.txt | cut -d "/" -f3-
+```
+
+### grep
+
+```shell
+# grep OR and case insensitive
+cat some_file | grep -i 'nz\|au'
+
+# count lines ( important to sort first)
+cat ip_deny.tf | grep "ip =" |sort | uniq -c
+2       ip = "192.168.0.1"
+1       ip = "192.168.0.2"
+1       ip = "192.168.0.3"
+```
+
+## cURL
+
+```bash
+
+# simple GET request
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://www.google.com/deadbeef
+
+# generate a random cookie string
+curl 127.0.0.1:8080 --cookie "CUSTOMER_COOKIE=$(openssl rand -hex 4)"
+
+# POST request [ inferred from --data ] with body in file call payload.json
+curl -v -k "$URL" \
+  -H 'Content-Type: application/json' \
+  --data @payload.json
+
+# environment variables ( double quoted )
+curl ${H1_HOSTNAME} -H 'User-Agent: '"${H1_FUZZ_UG}"'' \ 
+
+# get all DockerHub images from a company
+curl -s "https://hub.docker.com/v2/repositories/someCompany/?page_size=100" | jq -r '.results|.[]|.name'
+
+# no Cache header
+curl -H 'Cache-Control: no-cache, no-store' http://www.example.com
+
+# silent
+curl -s 'http://example.com' > /dev/null
+
+# fail -> useful to test for a fail
+curl --silent --fail "http://app:8000/health"
+
+# curl for a http response code like a 404
+curl -s -o /dev/null -w "%{http_code}" "http://app:8000/nonexistent-page"
+
+# Test SQL injection
+curl -I http://<http_hostname>:<external_port>/\?id\=%27%20OR%20%271
+
+# Test Cross-site scripting
+curl -I http://<http_hostname>:<external_port>/\?id\=\<script\>alert\(\1\)\</script\>
+
+# Test command injection
+curl -I http://<http_hostname>:<external_port>/\?id\=%3B+%2Fsbin%2Fshutdown
+
+# Test code injection
+curl -I http://<http_hostname>:<external_port>/\?id\=phpinfo\(\)
+
+# Trace / debug
+curl --trace-ascii - https://example.com
+
+# Perpetual Healthcheck in Docker Image like https://hub.docker.com/r/curlimages/curl
+HEALTHCHECK --interval=5m --timeout=3s \
+  CMD curl -f http://localhost/ || exit 1
+
+# Get from GitHub
+curl -LJO https://github.com/foo/bar/v0.2.1
+
+#Silent but http code
+curl --write-out '%{http_code}' --silent --output /dev/null http://example.com
+
+#Watch redirects
+curl -v -L ${TARGET_URL_AND_PATH} 2>&1 | egrep "^> (Host:|GET)"
+
+#loop requests
+# HEAD
+for i in {1..25}; do curl -I https://${HOSTNAME}; done | grep HTTP\n
+
+# GET with zero feedback on progress
+for i in {1..50}; do curl -s -H 'Content-type: application/json'  -H $'Secret: Foobar;' https://${HOSTNAME}; done |  > /dev/null 
+
+# POST to a Slack Webhook
+curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' ${SLACK_URL}
+
+# GET with a custom Host header
+curl -H "Host: ${HOSTNAME}" https://${HOSTNAME}
+
+# POST to a Slack Webhook with a json file
+curl -X POST \
+        -H 'Content-type: application/json' \
+        -d @payload_simple.json  $SLACK_URL
+
+# POST wit Bearer Token ( zero cookies )
+curl -X POST \
+    -H "Content-Type: application/json" \
+    -H $'Accept: application/json' \
+    -H $'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15);' \
+    -H $'Accept-Language: en' \
+    -H ${BEARER} \
+    -H $'Connection: close' \
+    --data-binary $'{\"foo\":\"json\"}' \
+    ${TARGET_URL_AND_PATH}
+
+#Provoke a Block
+export H1_HOSTNAME="https://www.hackerone.com" && \
+export H1_FUZZ_UG="Fuzz Faster U Fool v1.3.1-dev" && \
+curl -I ${H1_HOSTNAME} \
+     -H 'X-Requested-With: XMLHttpRequest' \
+     -H 'Accept: application/json' \
+     -H 'Connection: keep-alive' \
+     -H 'User-Agent: '"${H1_FUZZ_UG}"'' \
+     -H 'Accept-Encoding: gzip'
+```
 
 ## Reconnaissance
 
@@ -206,99 +407,6 @@ Some AWS libraries can be debugged by setting an environment variable to print n
 Or:
 
 `RUST_LOG=rusoto,hyper=debug`
-
-## Shell tricks
-
-### Trick in Container with no Vi / nano
-
-```shell
-# get from Paste into script
-cat > myscript.sh
-```
-
-### Operators
-
-```shell
-# run A then B, regardless of A's success
-"A ; B"   
-# run B if A succeeded
-"A && B"  
-# run B if A failed
-"A || B"
-# run A in background
-"A &" 
-# test return code
-terraform fmt -check ; test $? -eq 0 
-
-# check for empty strings
-test -n "yest" ; echo $?
-0
-test -n "" ; echo $?    
-1
-test -n  ; echo $?  
-0
-test -n $CIRCLE_PULL_REQUEST ; echo $?
-0
-test -n "$CIRCLE_PULL_REQUEST" ; echo $?
-1
-```
-
-### diff between files
-
-```shell
-cat file1 && echo "\n" && cat file2
-a
-b
-c
-d
-e
-
-
-d
-e
-f
-g
-
-# get lines not that are not in each file
-▶ cat file1 file2 | sort | uniq -u   
-a
-b
-c
-f
-g
-
-#find lines only in file1
-comm -23 file1 file2 
-a
-b
-c
-
-#find lines only in file2
-comm -13 file1 file2 
-f
-g
-
-#find lines in both files
-comm -12 file1 file2 
-d
-e
-
-# cuts from a forward slash
- - cat file.txt | cut -d "/" -f3-
-```
-
-### grep
-
-```shell
-# grep OR and case insensitive
-cat some_file | grep -i 'nz\|au'
-
-# count lines ( important to sort first)
-cat ip_deny.tf | grep "ip =" |sort | uniq -c
-2       ip = "192.168.0.1"
-1       ip = "192.168.0.2"
-1       ip = "192.168.0.3"
-```
 
 ## Burp
 
@@ -463,106 +571,7 @@ Then go to `"View Results by Table"`.  Select Play.
 
 Notice 10 requests sent at once.
 
-## cURL
 
-```bash
-
-# simple GET request
-curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://www.google.com/deadbeef
-
-# generate a random cookie string
-curl 127.0.0.1:8080 --cookie "CUSTOMER_COOKIE=$(openssl rand -hex 4)"
-
-# POST request [ inferred from --data ] with body in file call payload.json
-curl -v -k "$URL" \
-  -H 'Content-Type: application/json' \
-  --data @payload.json
-
-# environment variables ( double quoted )
-curl ${H1_HOSTNAME} -H 'User-Agent: '"${H1_FUZZ_UG}"'' \ 
-
-# get all DockerHub images from a company
-curl -s "https://hub.docker.com/v2/repositories/someCompany/?page_size=100" | jq -r '.results|.[]|.name'
-
-# no Cache header
-curl -H 'Cache-Control: no-cache, no-store' http://www.example.com
-
-# silent
-curl -s 'http://example.com' > /dev/null
-
-# fail -> useful to test for a fail
-curl --silent --fail "http://app:8000/health"
-
-# curl for a http response code like a 404
-curl -s -o /dev/null -w "%{http_code}" "http://app:8000/nonexistent-page"
-
-# Test SQL injection
-curl -I http://<http_hostname>:<external_port>/\?id\=%27%20OR%20%271
-
-# Test Cross-site scripting
-curl -I http://<http_hostname>:<external_port>/\?id\=\<script\>alert\(\1\)\</script\>
-
-# Test command injection
-curl -I http://<http_hostname>:<external_port>/\?id\=%3B+%2Fsbin%2Fshutdown
-
-# Test code injection
-curl -I http://<http_hostname>:<external_port>/\?id\=phpinfo\(\)
-
-# Trace / debug
-curl --trace-ascii - https://example.com
-
-# Perpetual Healthcheck in Docker Image like https://hub.docker.com/r/curlimages/curl
-HEALTHCHECK --interval=5m --timeout=3s \
-  CMD curl -f http://localhost/ || exit 1
-
-# Get from GitHub
-curl -LJO https://github.com/foo/bar/v0.2.1
-
-#Silent but http code
-curl --write-out '%{http_code}' --silent --output /dev/null http://example.com
-
-#Watch redirects
-curl -v -L ${TARGET_URL_AND_PATH} 2>&1 | egrep "^> (Host:|GET)"
-
-#loop requests
-# HEAD
-for i in {1..25}; do curl -I https://${HOSTNAME}; done | grep HTTP\n
-
-# GET with zero feedback on progress
-for i in {1..50}; do curl -s -H 'Content-type: application/json'  -H $'Secret: Foobar;' https://${HOSTNAME}; done |  > /dev/null 
-
-# POST to a Slack Webhook
-curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' ${SLACK_URL}
-
-# GET with a custom Host header
-curl -H "Host: ${HOSTNAME}" https://${HOSTNAME}
-
-# POST to a Slack Webhook with a json file
-curl -X POST \
-        -H 'Content-type: application/json' \
-        -d @payload_simple.json  $SLACK_URL
-
-# POST wit Bearer Token ( zero cookies )
-curl -X POST \
-    -H "Content-Type: application/json" \
-    -H $'Accept: application/json' \
-    -H $'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15);' \
-    -H $'Accept-Language: en' \
-    -H ${BEARER} \
-    -H $'Connection: close' \
-    --data-binary $'{\"foo\":\"json\"}' \
-    ${TARGET_URL_AND_PATH}
-
-#Provoke a Block
-export H1_HOSTNAME="https://www.hackerone.com" && \
-export H1_FUZZ_UG="Fuzz Faster U Fool v1.3.1-dev" && \
-curl -I ${H1_HOSTNAME} \
-     -H 'X-Requested-With: XMLHttpRequest' \
-     -H 'Accept: application/json' \
-     -H 'Connection: keep-alive' \
-     -H 'User-Agent: '"${H1_FUZZ_UG}"'' \
-     -H 'Accept-Encoding: gzip'
-```
 
 ## Apache Bench
 
@@ -1015,10 +1024,10 @@ This can even happen when a request to a server had a different content type. Fo
 
 The original request header:
 
-| Request      | content-type |
-| ----------- | ----------- |
-| Original      | application/json; charset=utf-8       |
-| Modified   | text/xml        |
+| Request  | content-type                    |
+| -------- | ------------------------------- |
+| Original | application/json; charset=utf-8 |
+| Modified | text/xml                        |
 
 Not all parsing libraries are equal.  
 
