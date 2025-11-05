@@ -83,6 +83,12 @@ find . -type f -name "filename.txt" -delete
 # count lines in all files
 find . -name 'foo_file*' | xargs wc -l
 
+# add quotes and comma to every line in file
+printf '"%b",\n' $(<file.txt)
+
+# create empty files
+files=("file1.txt" "file2.txt") && touch "${files[@]}"
+
 # trick in Container with no Vi / nano
 # get from Paste into script
 cat > myscript.sh
