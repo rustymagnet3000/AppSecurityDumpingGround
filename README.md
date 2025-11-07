@@ -89,6 +89,9 @@ printf '"%b",\n' $(<file.txt)
 # create empty files
 files=("file1.txt" "file2.txt") && touch "${files[@]}"
 
+# remove substring from a bunch of filenames
+for f in *_draft*; do mv "$f" "${f//_draft/}"; done
+
 # trick in Container with no Vi / nano
 # get from Paste into script
 cat > myscript.sh
