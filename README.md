@@ -12,8 +12,9 @@ Over time you collect lots of small, useful tips.  Below is my attempt to write 
   - [cURL](#curl)
   - [Reconnaissance](#reconnaissance)
   - [Proxy traffic](#proxy-traffic)
-    - [macOS env variable](#macos-env-variable)
-    - [Jetbrains IDE](#jetbrains-ide)
+    - [environment variable](#environment-variable)
+    - [alternative to env var](#alternative-to-env-var)
+    - [Jetbrains](#jetbrains)
     - [macOS Desktop apps](#macos-desktop-apps)
     - [Proxy OpenSSL](#proxy-openssl)
     - [Invisble proxying](#invisble-proxying)
@@ -300,11 +301,11 @@ https://github.com/projectdiscovery/nuclei
 
 ## Proxy traffic
 
-### macOS env variable
+### environment variable
 
 on `macOS`, it is simpler to proxy command line apps - such as Homebrew, Rust, Python, C - using an environment variable:
 
-```bash
+```shell
 export https_proxy=127.0.0.1:8081
 
 # Test it:
@@ -313,28 +314,33 @@ curl https://ifconfig.io
 unset https_proxy
 ```
 
-### Jetbrains IDE
+### alternative to env var
 
-For compiled languages, it is easier to produce a compiled binary and then proxy it via JetBrains IDE.  For example:
+```shell
+# export Burp CA
+/Proxy/Intercept/Open Browser
+http://burp
 
-```bash
-export https_proxy=127.0.0.1:8081
-./target/debug/playground
-// traffic will appear in Burp
+# convert to PEM format
+openssl x509 -inform DER -in cacert.der -out burp-ca.pem
+
+# Test
+curl -x http://127.0.0.1:8081 --cacert burp-ca.pem https://example.com
 ```
+
+### Jetbrains
+
+Proxy Settings available in JetBrains IDE or run a compiled app from Terminal with an env var.
 
 ### macOS Desktop apps
 
-With Safari or Slack, you have to change the macOS `Network Proxy` settings.
+With Safari or Slack, you could change the macOS `Network Proxy` settings.  The in-built BurpSuite browser saves a lot of time.
 
 ### Proxy OpenSSL
 
 No `invisible proxy` is required to read OpenSSL traffic if you use the `proxy` flag.
 
 ```bash
-# original
-curl https://httpbin.org/ip
-
 # proxied
 curl -x, --proxy 127.0.0.1:8080 https://httpbin.org/ip
 
