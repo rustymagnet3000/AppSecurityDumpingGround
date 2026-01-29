@@ -18,6 +18,7 @@ Over time you collect lots of small, useful tips.  Below is my attempt to write 
 - [Burp](#burp)
   - [Search Burp files](#search-burp-files)
   - [Replay requests](#replay-requests)
+  - [Replay requests changing a single field ( Free edition )](#replay-requests-changing-a-single-field--free-edition-)
   - [Replay requests (turbo)](#replay-requests-turbo)
   - [Enumeration](#enumeration)
   - [Inject XSS Payload](#inject-xss-payload)
@@ -402,13 +403,23 @@ grep --include=\*.burp -rnw . -e "hotel"
 
 #### Same requests many times
 
-You can do this with Intruder ( not Repeater, as you might expect ).  
+You can do this with `Intruder` [ not `Repeater` ]:  
 
 - Send request to `Intruder`
 - In `Positions` tab, `Clear §`
 - In `Payloads` tab, select:
-  - `Payload Type: Null Payment`
+  - `Payload Type: Null Payload`
   - Select number of requests to replay
+
+### Replay requests changing a single field ( Free edition )
+
+- Send request to `Intruder`
+
+- In `Positions` tab, add the `§§` around the field you care about
+- In `Payloads` tab, select:
+  - `Payload Configuration: Character Frobber`
+  - Add a `Specific String` [ as this sets the min and max length automatically ] 
+  - If you selected a 10 char string, it will send 10 requests
 
 ### Replay requests (turbo)
 
