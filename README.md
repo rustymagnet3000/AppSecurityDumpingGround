@@ -18,7 +18,8 @@ Over time you collect lots of small, useful tips.  Below is my attempt to write 
 - [Burp](#burp)
   - [Search Burp files](#search-burp-files)
   - [Replay requests](#replay-requests)
-  - [Replay requests (turbo)](#replay-requests-turbo)
+  - [change a single field ( Free edition )](#change-a-single-field--free-edition-)
+  - [speed (turbo)](#speed-turbo)
   - [Enumeration](#enumeration)
   - [Inject XSS Payload](#inject-xss-payload)
 - [JMeter](#jmeter)
@@ -402,15 +403,25 @@ grep --include=\*.burp -rnw . -e "hotel"
 
 #### Same requests many times
 
-You can do this with Intruder ( not Repeater, as you might expect ).  
+You can do this with `Intruder` [ not `Repeater` ]:  
 
 - Send request to `Intruder`
 - In `Positions` tab, `Clear §`
 - In `Payloads` tab, select:
-  - `Payload Type: Null Payment`
+  - `Payload Type: Null Payload`
   - Select number of requests to replay
 
-### Replay requests (turbo)
+### change a single field ( Free edition )
+
+- Send request to `Intruder`
+
+- In `Positions` tab, add the `§§` around the field you care about
+- In `Payloads` tab, select:
+  - `Payload Configuration: Character Frobber`
+  - Add a `Specific String` [ as this sets the min and max length automatically ] 
+  - If you selected a 10 char string, it will send 10 requests
+
+### speed (turbo)
 
 `Turbo Intruder` is a `Burp Suite extension` for sending large numbers of HTTP requests when you require extreme speed.
 
