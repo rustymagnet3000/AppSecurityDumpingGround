@@ -17,8 +17,8 @@ Over time you collect lots of small, useful tips.  Below is my attempt to write 
   - [Add debug logging, as alternative to proxying](#add-debug-logging-as-alternative-to-proxying)
 - [Burp](#burp)
   - [Search Burp files](#search-burp-files)
+  - [Modify User-Agent of request](#modify-user-agent-of-request)
   - [Replay requests](#replay-requests)
-  - [change a single field ( Free edition )](#change-a-single-field--free-edition-)
   - [speed (turbo)](#speed-turbo)
   - [Enumeration](#enumeration)
   - [Inject XSS Payload](#inject-xss-payload)
@@ -399,6 +399,14 @@ grep --include=\*.burp -rnw . -e "hotel"
 # -w match whole word
 ```
 
+### Modify User-Agent of request
+
+A clean and simple way to modify the User-Agent of a request without the need for `Request Intercept Rules`:
+
+- Send all app traffic to the BurpSuite
+- Inside of BurpSuite, `Target / Scope / Add` the request you care about `POST /foo`
+- In `HTTP match and replace rules` add a rule to dynamically modify the Request user-agent
+
 ### Replay requests
 
 #### Same requests many times
@@ -411,7 +419,7 @@ You can do this with `Intruder` [ not `Repeater` ]:
   - `Payload Type: Null Payload`
   - Select number of requests to replay
 
-### change a single field ( Free edition )
+#### change a single field ( Free edition )
 
 - Send request to `Intruder`
 
