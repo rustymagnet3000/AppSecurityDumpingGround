@@ -17,7 +17,8 @@ Over time you collect lots of small, useful tips.  Below is my attempt to write 
   - [Add debug logging, as alternative to proxying](#add-debug-logging-as-alternative-to-proxying)
 - [Burp](#burp)
   - [Search Burp files](#search-burp-files)
-  - [Modify User-Agent of request](#modify-user-agent-of-request)
+  - [Modify a Request Header](#modify-a-request-header)
+  - [Intercept a Response](#intercept-a-response)
   - [Replay requests](#replay-requests)
   - [speed (turbo)](#speed-turbo)
   - [Enumeration](#enumeration)
@@ -399,13 +400,28 @@ grep --include=\*.burp -rnw . -e "hotel"
 # -w match whole word
 ```
 
-### Modify User-Agent of request
+### Modify a Request Header
 
 A clean and simple way to modify the User-Agent of a request without the need for `Request Intercept Rules`:
 
 - Send all app traffic to the BurpSuite
+- Inside of BurpSuite, select `Target / Scope` 
+- Add the request you care about `POST /foo`
+- Visit `proxy settings`
+- Find `HTTP match and replace rules`
+- Select the checkbox 'only apply to in-scope items'
+- Add a rule to dynamically modify the Request user-agent
+
+### Intercept a Response
+
+A clean and simple way to modify the User-Agent of a request without the need for `Request Intercept Rules`:
+
+- With a Proxy set up
+- Visit `HTTP History`
+- Right click on the request of interest `Add to Scope`
+- Visit `proxy settings`
 - Inside of BurpSuite, `Target / Scope / Add` the request you care about `POST /foo`
-- In `HTTP match and replace rules` add a rule to dynamically modify the Request user-agent
+- In `Response interception rules`  select `URL` and `is in target sccope`
 
 ### Replay requests
 
