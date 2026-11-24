@@ -5,6 +5,7 @@ Over time you collect lots of small, useful tips.  Below is my attempt to write 
   - [Operators](#operators)
   - [diff between files](#diff-between-files)
   - [grep](#grep)
+  - [GitHub API rate limit watcher](#github-api-rate-limit-watcher)
 - [cURL](#curl)
 - [Reconnaissance](#reconnaissance)
 - [Proxy traffic](#proxy-traffic)
@@ -160,6 +161,34 @@ cat ip_deny.tf | grep "ip =" |sort | uniq -c
 2       ip = "192.168.0.1"
 1       ip = "192.168.0.2"
 1       ip = "192.168.0.3"
+```
+
+### GitHub API rate limit watcher
+
+Getting `API rate limit exceeded` from `gh` when you have only made a few calls?  The limit (5,000 per hour) belongs to your GitHub user, not to one terminal.  Every `gh` call from every Claude Code session, IDE extension, script or cron job on your login draws from the same pool.
+
+`gh api rate_limit` does not count against the limit, so poll it:
+
+```shell
+# log the remaining core requests every 20 seconds ( run it outside the tool you are testing )
+while true; do echo "$(date -u +%H:%M:%S) $(gh api rate_limit --jq .resources.core.remaining)"; sleep 20; done
+```
+
+Read the output:
+- Flat, or a drop of a few: nothing is polling.
+- A steady fall while you are idle: something is polling.  Close half your sessions or tools and watch again.  Repeat on the half that stops the fall until one is left.
+- A sudden large drop between two lines: a burst.  The timestamp tells you what ran then.
+
+When the limit is hit, the reset time is in the same API:
+
+```shell
+gh api rate_limit --jq '.resources.core | "remaining \(.remaining), resets \(.reset | strftime("%H:%M:%SZ"))"'
+```
+
+Many open Claude Code sessions are a common cause.  Look for `/loop`, scheduled tasks, PR monitors and `gh event listen`:
+
+```shell
+ps aux | grep -E "[c]laude --"
 ```
 
 ## cURL
